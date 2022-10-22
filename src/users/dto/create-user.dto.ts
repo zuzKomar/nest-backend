@@ -21,6 +21,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   phone: string;
 
+  @IsString()
+  @IsNotEmpty()
+  pesel: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;

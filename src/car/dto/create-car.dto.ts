@@ -35,14 +35,14 @@ export class CreateCarDto {
   @IsNotEmpty()
   numberOfSeats: number;
 
-  @IsString()
-  @IsNotEmpty()
-  registrationNumber: number;
-
   @IsNumber()
   @IsNotEmpty()
   costPerDay: number;
 
+  @IsString()
+  @IsNotEmpty()
+  registrationNumber: string;
+
   @IsOptional()
-  photo: bytes.Unit;
+  photo: any;
 }
