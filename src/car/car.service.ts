@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaClient } from '@prisma/client';
 import { CreateCarDto } from './dto/create-car.dto';
@@ -6,7 +6,7 @@ import { UpdateCarDto } from './dto/update-car.dto';
 
 const prisma = new PrismaClient();
 
-@Injectable()
+@Injectable()// singleton as default
 export class CarService {
   async create(createCarDto: CreateCarDto) {
     let car = await prisma.car.create({
@@ -30,7 +30,7 @@ export class CarService {
   }
 
   async findOne(id: number) {
-    return await prisma.car.findFirst({
+    const car = await prisma.car.findFirst({
       where: {
         id,
       },
@@ -47,6 +47,12 @@ export class CarService {
         costPerDay: true,
       },
     });
+
+    if (!car) {
+      throw new NotFoundException(`Car with id: ${id} not found!`);
+    }
+
+    return car;
   }
 
   async update(id: number, updateCarDto: UpdateCarDto) {

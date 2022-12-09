@@ -9,40 +9,40 @@ enum Transmission {
 export class CreateCarDto {
   @IsString()
   @IsNotEmpty()
-  brand: string;
+  readonly brand: string;
 
   @IsString()
   @IsNotEmpty()
-  model: string;
+  readonly model: string;
 
   @IsNumber()
   @IsNotEmpty()
-  productionYear: number;
+  readonly productionYear: number;
 
   @IsNumber()
   @IsNotEmpty()
-  power: number;
+  readonly power: number;
 
   @IsNumber()
   @IsNotEmpty()
-  capacity: number;
+  readonly capacity: number;
 
   @IsEnum(Transmission)
   @IsNotEmpty()
-  transmission: Transmission;
+  readonly transmission: Transmission;
 
   @IsNumber()
   @IsNotEmpty()
-  numberOfSeats: number;
+  readonly numberOfSeats: number;
 
   @IsNumber()
   @IsNotEmpty()
-  costPerDay: number;
+  readonly costPerDay: number;
 
   @IsString()
   @IsNotEmpty()
-  registrationNumber: string;
+  readonly registrationNumber: string;
 
   @IsOptional()
-  photo: any;
+  readonly photo: any;
 }

@@ -22,7 +22,6 @@ model User {
   password String
   role    Role     @default(USER)
   rents Rent[]
-  @@map("users")
 }
 
 model Car {
@@ -41,7 +40,6 @@ model Car {
   photo Bytes?
   usable Boolean @default(true)
   rents Rent[]
-  @@map("cars")
 }
 
 model Rent {
@@ -55,7 +53,6 @@ model Rent {
   date DateTime
   dueDate DateTime
   damagedCar Boolean @default(false)
-  @@map("rents")
 }
 
 enum Role {

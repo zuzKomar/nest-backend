@@ -10,9 +10,10 @@ import { AuthController } from './auth/auth.controller';
 import { RentService } from './rent/rent.service';
 import { AuthService } from './auth/auth.service';
 import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [AuthModule, PrismaModule, RentModule, CarModule, UsersModule],
+  imports: [AuthModule, PrismaModule, RentModule, CarModule, UsersModule, ConfigModule],
   controllers: [CarController, RentController, AuthController],
   providers: [CarService, RentService, AuthService],
 })

@@ -4,8 +4,9 @@ import { CarController } from './car.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule], //list of modules this module uses
   controllers: [CarController],
   providers: [CarService],
 })
-export class CarModule {}
+export class CarModule { }
+ 
