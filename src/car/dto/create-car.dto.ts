@@ -44,5 +44,5 @@ export class CreateCarDto {
   readonly registrationNumber: string;
 
   @IsOptional()
-  readonly photo: any;
+  readonly photo?: any;
 }

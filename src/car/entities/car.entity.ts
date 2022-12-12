@@ -1,9 +1,10 @@
 import { Car, Transmission, Prisma } from "@prisma/client"
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { MaxLength, MinLength } from "class-validator";
 
 
 export class CarEntity implements Car {
-    @ApiProperty()
+    @ApiProperty() //makes property available for Swagger
     id: number;
 
     @ApiProperty()
@@ -13,9 +14,13 @@ export class CarEntity implements Car {
     updatedAt: Date;
 
     @ApiProperty({ type: String })
+    @MinLength(2)
+    @MaxLength(30)
     brand: string;
 
     @ApiProperty({ type: String })
+    @MinLength(2)
+    @MaxLength(30)
     model: string;
 
     @ApiProperty({ type: Number })
