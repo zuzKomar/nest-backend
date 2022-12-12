@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import { RentEntity } from './entities/rent.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
-import { ApiOkResponse } from '@nestjs/swagger/dist';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger/dist';
 
+@ApiTags('rents') //enables endpoints grouping in swagger
 @Controller('rents')
 export class RentController {
   constructor(private readonly rentService: RentService) { }
@@ -24,19 +25,19 @@ export class RentController {
 
   @Get(':id')
   @ApiOkResponse({ type: RentEntity })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.rentService.findOne(+id);
   }
 
   @Patch(':id')
   @ApiCreatedResponse({ type: RentEntity })
-  update(@Param('id') id: string, @Body() updateRentDto: UpdateRentDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateRentDto: UpdateRentDto) {
     return this.rentService.update(+id, updateRentDto);
   }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: RentEntity })
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.rentService.remove(+id);
   }
 }
