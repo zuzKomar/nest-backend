@@ -44,6 +44,7 @@ export class CarService {
         numberOfSeats: true,
         photo: true,
         costPerDay: true,
+        rents: true,
       },
     });
 
@@ -55,12 +56,16 @@ export class CarService {
   }
 
   async update(id: number, updateCarDto: UpdateCarDto) {
-    return await prisma.car.update({
+    const car = await prisma.car.update({
       where: {
         id,
       },
       data: updateCarDto,
     });
+
+    if (!car) {
+      throw new NotFoundException(`Car with id: ${id} not found!`)
+    }
   }
 
   async remove(id: number) {

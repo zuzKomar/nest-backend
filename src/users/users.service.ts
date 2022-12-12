@@ -24,6 +24,9 @@ export class UsersService {
       where: {
         id,
       },
+      include: {
+        rents: true,
+      }
     });
   }
 
