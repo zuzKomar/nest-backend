@@ -17,7 +17,10 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true, //it will auto transform payloads to dto instances -> primitive type conversions too
-      forbidNonWhitelisted: true //will return error if we pass prop, that was not specified in dto
+      forbidNonWhitelisted: true, //will return error if we pass prop, that was not specified in dto
+      transformOptions: {
+        enableImplicitConversion: true
+      }
     }),
   );
   await app.listen(3000);
