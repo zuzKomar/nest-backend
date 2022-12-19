@@ -1,15 +1,24 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger"
 
 export class CreateRentDto {
   @IsNumber()
-  userId: number;
+  @IsNotEmpty()
+  @ApiProperty({description: 'The id of a user'})
+  readonly userId: number;
 
   @IsNumber()
-  carId: number;
+  @IsNotEmpty()
+  @ApiProperty({description: 'The id of a car'})
+  readonly carId: number;
 
   @IsString()
-  date: string;
+  @IsNotEmpty()
+  @ApiProperty({description: 'The start date of a rent'})
+  date: string | Date;
 
   @IsString()
-  dueDate: string;
+  @IsNotEmpty()
+  @ApiProperty({description: 'The end date of a rent'})
+  dueDate: string | Date;
 }
