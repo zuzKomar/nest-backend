@@ -8,16 +8,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder().setTitle('Rent-a-car Application')
     .setDescription('Rent-a-car API')
-    .setVersion('v1')
+    .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
+      whitelist: true, //it will accept only those props (in post request), which are listed in DTOs, the rest will be ignored and not proceeded,
+      forbidNonWhitelisted: true, //it will return error if we pass prop, that was not specified in dto
       transform: true, //it will auto transform payloads to dto instances -> primitive type conversions too
-      forbidNonWhitelisted: true, //will return error if we pass prop, that was not specified in dto
       transformOptions: {
         enableImplicitConversion: true
       }
