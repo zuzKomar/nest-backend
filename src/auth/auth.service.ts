@@ -29,8 +29,14 @@ export class AuthService {
       throw new ForbiddenException('Credentials incorrect');
     }
 
-    return user;
-    return 'I am logged in...';
+    return {
+     "firstName": user.firstName,
+     "lastName": user.lastName,
+     "phone": user.phone,
+     "pesel": user.pesel,
+     "email": user.email,
+     "role": user.role
+    }
   }
 
   async signup(dto: CreateUserDto) {
@@ -45,6 +51,13 @@ export class AuthService {
       },
     });
 
-    return user;
+    return {
+     "firstName": user.firstName,
+     "lastName": user.lastName,
+     "phone": user.phone,
+     "pesel": user.pesel,
+     "email": user.email,
+     "role": user.role
+    }
   }
 }
