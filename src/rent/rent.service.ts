@@ -8,6 +8,8 @@ const prisma = new PrismaClient();
 @Injectable()
 export class RentService {
   async create(createRentDto: CreateRentDto) {
+    createRentDto.date = new Date(createRentDto.date);
+    createRentDto.dueDate = new Date(createRentDto.dueDate);
     let rent = await prisma.rent.create({
       data: createRentDto,
     });
@@ -28,6 +30,8 @@ export class RentService {
   }
 
   async update(id: number, updateRentDto: UpdateRentDto) {
+    updateRentDto.date = new Date(updateRentDto.date);
+    updateRentDto.dueDate = new Date(updateRentDto.dueDate);
     return await prisma.rent.update({
       where: {
         id,
