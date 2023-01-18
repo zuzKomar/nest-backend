@@ -8,8 +8,7 @@ const prisma = new PrismaClient();
 @Injectable()
 export class RentService {
   async create(createRentDto: CreateRentDto) {
-    createRentDto.date = new Date(createRentDto.date);
-    createRentDto.dueDate = new Date(createRentDto.dueDate);
+    console.log(createRentDto)
     let rent = await prisma.rent.create({
       data: createRentDto,
     });
@@ -18,7 +17,16 @@ export class RentService {
   }
 
   async findAll() {
-    return await prisma.rent.findMany();
+    return await prisma.rent.findMany({
+      select: {
+        id: true,
+        date: true,
+        dueDate: true,
+        damagedCar: true,
+        user: true,
+        car: true
+      }
+    });
   }
 
   async findOne(id: number) {
@@ -26,6 +34,14 @@ export class RentService {
       where: {
         id,
       },
+      select: {
+        id: true,
+        date: true,
+        dueDate: true,
+        damagedCar: true,
+        user: true,
+        car: true
+      }
     });
   }
 

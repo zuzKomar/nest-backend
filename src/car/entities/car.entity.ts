@@ -46,7 +46,7 @@ export class CarEntity implements Car {
 
     @ApiProperty({ required: false, nullable: true })
     @ApiPropertyOptional()
-    photo: Buffer | null;
+    photo: string | null;
 
     @ApiProperty({ default: true })
     usable: boolean;

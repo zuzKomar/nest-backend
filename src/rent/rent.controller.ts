@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import { RentEntity } from './entities/rent.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger/dist';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('rents') //enables endpoints grouping in swagger
 @Controller('rents')
+@UseGuards(AccessTokenGuard)
 export class RentController {
   constructor(private readonly rentService: RentService) { }
 

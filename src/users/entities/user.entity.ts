@@ -31,4 +31,6 @@ export class UserEntity implements User {
 
     @ApiProperty({ enum: [Role.ADMIN, Role.USER], default: Role.USER })
     role: Role;
+
+    refreshToken: string
 }

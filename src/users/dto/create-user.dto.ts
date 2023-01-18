@@ -35,7 +35,6 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(8)
   @ApiProperty({description: 'The password of a user'})
   password: string;
 
@@ -43,4 +42,8 @@ export class CreateUserDto {
   @IsEnum(Role)
   @ApiProperty({description: 'The role of a user'})
   readonly role: Role;
+
+  @IsString()
+  @IsOptional()
+  readonly refreshToken: string;
 }

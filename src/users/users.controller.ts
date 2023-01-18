@@ -1,13 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger/dist';
+import { AuthGuard } from "@nestjs/passport"
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(AccessTokenGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
@@ -25,18 +28,18 @@ export class UsersController {
 
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(+id);
+  findOne(@Param('email', ParseIntPipe) email: string) {
+    return this.usersService.findOne(email);
   }
 
-  @Patch(':id')
   @ApiCreatedResponse({ type: UserEntity })
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @UseGuards(AuthGuard('jwt'))
+  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
 
-  @Delete(':id')
   @ApiCreatedResponse({ type: UserEntity })
+  @UseGuards(AuthGuard('jwt'))
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(+id);
   }

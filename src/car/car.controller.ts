@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CarEntity } from './entities/car.entity';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @Controller('cars')
 @ApiTags('cars')
+@UseGuards(AccessTokenGuard)
 export class CarController {
   constructor(private readonly carService: CarService) { }
 

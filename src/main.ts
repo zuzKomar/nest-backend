@@ -1,10 +1,16 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { PrismaClientExceptionFilter } from './prisma-client-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
+    origin: 'http://localhost:3001',
+    credentials: true,
+  });
 
   const config = new DocumentBuilder().setTitle('Rent-a-car Application')
     .setDescription('Rent-a-car API')
@@ -23,6 +29,8 @@ async function bootstrap() {
       }
     }),
   );
+  // const { httpAdapter } = app.get(HttpAdapterHost);
+  // app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   await app.listen(3000);
 }
 bootstrap();

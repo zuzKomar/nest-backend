@@ -11,10 +11,18 @@ import { RentService } from './rent/rent.service';
 import { AuthService } from './auth/auth.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [AuthModule, PrismaModule, RentModule, CarModule, UsersModule, ConfigModule],
+  imports: [
+    AuthModule, 
+    PrismaModule, 
+    RentModule, 
+    CarModule, 
+    UsersModule, 
+    ConfigModule.forRoot({ isGlobal: true})
+  ],
   controllers: [CarController, RentController, AuthController],
-  providers: [CarService, RentService, AuthService],
+  providers: [CarService, RentService, AuthService, JwtService],
 })
 export class AppModule {}

@@ -22,6 +22,7 @@ model User {
   password String
   role    Role     @default(USER)
   rents Rent[]
+  refreshToken String
 }
 
 model Car {
@@ -37,7 +38,7 @@ model Car {
   numberOfSeats Int
   costPerDay Int
   registrationNumber String @unique 
-  photo Bytes?
+  photo String?
   usable Boolean @default(true)
   rents Rent[]
 }

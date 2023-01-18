@@ -9,17 +9,15 @@ const prisma = new PrismaClient();
 @Injectable()
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
-    let hash = await argon.hash(createUserDto.password);
-    createUserDto.password = hash;
-    let user = await prisma.user.create({
-      data: createUserDto,
+    const hash = await argon.hash(createUserDto.password);
+    
+    return prisma.user.create({
+      data: {...createUserDto, password: hash},
     });
-
-    return user;
   }
 
-  async findAll() {
-    return await prisma.user.findMany({
+  findAll() {
+    return prisma.user.findMany({
       select: {
         firstName: true,
         lastName: true,
@@ -30,34 +28,38 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number) {
-    return await prisma.user.findFirst({
+  findOne(email: string) {
+    return prisma.user.findFirst({
       where: {
-        id,
+        email,
       },
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         phone: true,
         email: true,
-        rents: true
+        refreshToken: true,
+        rents: {
+          include: {
+            car: true
+          }
+        }
       }
     });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    let hash = await argon.hash(updateUserDto.password);
-    updateUserDto.password = hash;
-    return await prisma.user.update({
+  update(id: string, updateUserDto: UpdateUserDto) {
+    return prisma.user.update({
       where: {
-        id,
+        id: +id,
       },
-      data: updateUserDto,
+      data: updateUserDto
     });
   }
 
-  async remove(id: number) {
-    return await prisma.user.delete({
+  remove(id: number) {
+    return prisma.user.delete({
       where: {
         id,
       },

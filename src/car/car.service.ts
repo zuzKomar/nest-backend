@@ -16,14 +16,16 @@ export class CarService {
   }
 
   async findAll() {
-    return await prisma.car.findMany({
+    return prisma.car.findMany({
       select: {
         id: true,
         brand: true,
         model: true,
         power: true,
+        productionYear: true,
         capacity: true,
         costPerDay: true,
+        usable: true
       },
     });
   }
@@ -45,6 +47,7 @@ export class CarService {
         photo: true,
         costPerDay: true,
         rents: true,
+        usable: true
       },
     });
 
@@ -56,20 +59,21 @@ export class CarService {
   }
 
   async update(id: number, updateCarDto: UpdateCarDto) {
-    const car = await prisma.car.update({
-      where: {
-        id,
-      },
-      data: updateCarDto,
-    });
-
-    if (!car) {
-      throw new NotFoundException(`Car with id: ${id} not found!`)
+    try{
+      const car = await prisma.car.update({
+        where: {
+          id
+        },
+        data: updateCarDto,
+      });
+    }catch(e){
+      console.log(e);
+      throw e;
     }
   }
 
   async remove(id: number) {
-    return await prisma.car.delete({
+    return prisma.car.delete({
       where: {
         id,
       },

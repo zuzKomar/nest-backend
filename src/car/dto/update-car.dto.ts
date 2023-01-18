@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateCarDto } from './create-car.dto';
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsBoolean } from 'class-validator';
 
 export class UpdateCarDto extends PartialType(CreateCarDto) {
   @IsString()
@@ -26,4 +26,8 @@ export class UpdateCarDto extends PartialType(CreateCarDto) {
   @IsNumber()
   @IsOptional()
   costPerDay: number;
+
+  @IsBoolean()
+  @IsOptional()
+  usable: boolean;
 }
