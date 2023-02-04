@@ -1,8 +1,7 @@
-import bytes from 'bytes';
 import { IsString, IsNumber, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from "@nestjs/swagger"
 
-enum Transmission {
+export enum Transmission {
   MANUAL = 'MANUAL',
   AUTOMATIC = 'AUTOMATIC',
 }

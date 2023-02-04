@@ -34,7 +34,7 @@ export class UsersController {
 
   @ApiCreatedResponse({ type: UserEntity })
   @UseGuards(AuthGuard('jwt'))
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 

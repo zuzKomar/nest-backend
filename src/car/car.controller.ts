@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards, Req } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist';
 import { CarService } from './car.service';
@@ -6,6 +6,7 @@ import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CarEntity } from './entities/car.entity';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { FilterCarTableDto } from './dto/filter-car-table.dto';
 
 @Controller('cars')
 @ApiTags('cars')
@@ -21,9 +22,8 @@ export class CarController {
 
   @Get()
   @ApiOkResponse({ type: [CarEntity] })
-  findAll(@Query() paginationQuery) {
-    const { limit, offset } = paginationQuery;
-    return this.carService.findAll();
+  findAll(@Query() query: FilterCarTableDto) {
+    return this.carService.findAll(query);
   }
 
   @Get(':id')

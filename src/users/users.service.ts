@@ -49,10 +49,10 @@ export class UsersService {
     });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: number, updateUserDto: UpdateUserDto) {
     return prisma.user.update({
       where: {
-        id: +id,
+        id: id,
       },
       data: updateUserDto
     });

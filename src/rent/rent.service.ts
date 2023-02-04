@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 @Injectable()
 export class RentService {
   async create(createRentDto: CreateRentDto) {
-    console.log(createRentDto)
     let rent = await prisma.rent.create({
       data: createRentDto,
     });
