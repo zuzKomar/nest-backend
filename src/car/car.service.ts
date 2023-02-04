@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateCarDto } from './dto/create-car.dto';
+import { FilterCarTableDto } from './dto/filter-car-table.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 
 const prisma = new PrismaClient();
@@ -15,8 +16,62 @@ export class CarService {
     return car;
   }
 
-  async findAll() {
+  async findAll(filterCarTable: FilterCarTableDto) {
     return prisma.car.findMany({
+      where: {
+        AND: [
+          { 
+            usable : {
+              equals: true,
+            }
+          },
+          { 
+            brand: {
+              startsWith: filterCarTable.brand
+            }
+          },
+          { 
+            model: {
+              startsWith: filterCarTable.model
+            }
+          },
+          { 
+            productionYear: {
+              gte: filterCarTable.productionYearFrom,
+              lte: filterCarTable.productionYearTo
+            }
+          },
+          { 
+            power: {
+              gte: filterCarTable.powerFrom,
+              lte: filterCarTable.powerTo
+            }
+          },
+          { 
+            capacity: {
+              gte: filterCarTable.capacityFrom,
+              lte: filterCarTable.capacityTo
+            }
+          },
+          { 
+            transmission: {
+              equals: filterCarTable.transmission
+            }
+          },
+          { 
+            numberOfSeats: {
+              gte: filterCarTable.numberOfSeatsFrom,
+              lte: filterCarTable.numberOfSeatsTo
+            }
+          },
+          { 
+            costPerDay: {
+              gte: filterCarTable.costPerDayFrom,
+              lte: filterCarTable.costPerDayTo
+            }
+          },
+        ]
+      },
       select: {
         id: true,
         brand: true,
@@ -25,7 +80,8 @@ export class CarService {
         productionYear: true,
         capacity: true,
         costPerDay: true,
-        usable: true
+        usable: true,
+        transmission: true
       },
     });
   }
@@ -46,7 +102,13 @@ export class CarService {
         numberOfSeats: true,
         photo: true,
         costPerDay: true,
-        rents: true,
+        rents: {
+          select: {
+            carId: true,
+            date: true,
+            dueDate: true
+          }
+        },
         usable: true
       },
     });
