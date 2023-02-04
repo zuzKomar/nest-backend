@@ -12,9 +12,6 @@ import { UsersModule } from 'src/users/users.module';
     UsersModule,
     PrismaModule, 
     JwtModule.register({}),
-    // PassportModule.register({
-    //   property: 'user',
-    // })
   ],
   controllers: [AuthController],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy]
