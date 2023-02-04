@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import * as argon from 'argon2';
 import { PrismaClient } from '@prisma/client';
@@ -25,26 +25,33 @@ export class AuthService {
         email: dto.email,
       },
     });
+
     if (!user) {
       throw new ForbiddenException('Credentials incorrect');
     }
 
-    //compare passwords
     const pwMatches = await argon.verify(user.password, dto.password);
-
+ 
     if (!pwMatches) {
       throw new ForbiddenException('Credentials incorrect');
     }
 
-    const tokens = await this.getTokens(user.id+'', user.email);
+    const tokens = await this.getTokens(user.id, user.email);
 
-    await this.updateRefreshToken(user.id+'', tokens.refreshToken);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
 
-    return tokens;
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      ...tokens
+    }
   }
 
   async signup(dto: CreateUserDto) {
     //check if user with given credentials exists
+    //if exists throw an exception
     //generate password hash
     //save the new user in the db
     //return new user
@@ -66,12 +73,12 @@ export class AuthService {
       }
     })
 
-    const tokens = await this.getTokens(newUser.id+'', newUser.email)
-    await this.updateRefreshToken(newUser.id+'', tokens.refreshToken);
+    const tokens = await this.getTokens(newUser.id, newUser.email)
+    await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return tokens;
   }
 
- async logout(userId: string) {
+ async logout(userId: number) {
     return await this.usersService.update(userId, {refreshToken: ''});
   }
 
@@ -86,13 +93,14 @@ export class AuthService {
       user.refreshToken,
       refreshToken
     );
-
+    
     if(!refreshTokenMatches){
       throw new ForbiddenException('Access Denied');
     }
 
-    const tokens = await this.getTokens(user.id+'', user.email);
-    await this.updateRefreshToken(user.id+'', tokens.refreshToken);
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
+
     return tokens;
   }
 
@@ -100,26 +108,16 @@ export class AuthService {
     return argon.hash(data);
   }
 
-  async updateRefreshToken(userId: string, refreshToken: string) {
+  async updateRefreshToken(userId: number, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
 
-    await this.usersService.update(userId, {
+    return await this.usersService.update(userId, {
       refreshToken: hashedRefreshToken,
     });
   }
 
-  async getTokens(userId: string, username: string) {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-          username,
-        },
-        {
-          secret: 'secret',
-          expiresIn: '15m',
-        },
-      ),
+  async getTokens(userId: number, username: string) {
+    const [token, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
@@ -130,10 +128,20 @@ export class AuthService {
           expiresIn: '1d',
         },
       ),
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: 'secret',
+          expiresIn: '30d',
+        },
+      ),
     ]);
 
     return {
-      accessToken,
+      token,
       refreshToken,
     };
   }
