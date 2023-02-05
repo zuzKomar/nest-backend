@@ -26,9 +26,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get(':email')
   @ApiOkResponse({ type: UserEntity })
-  findOne(@Param('email', ParseIntPipe) email: string) {
+  findOne(@Param('email') email: string) {
     return this.usersService.findOne(email);
   }
 
