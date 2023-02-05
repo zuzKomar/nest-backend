@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateRentDto } from './create-rent.dto';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
 
 export class UpdateRentDto extends PartialType(CreateRentDto) {
   @IsString()
@@ -10,4 +10,8 @@ export class UpdateRentDto extends PartialType(CreateRentDto) {
   @IsString()
   @IsOptional()
   dueDate: string | Date;
+
+  @IsBoolean()
+  @IsOptional()
+  damagedCar: boolean
 }

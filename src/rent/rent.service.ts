@@ -45,13 +45,23 @@ export class RentService {
   }
 
   async update(id: number, updateRentDto: UpdateRentDto) {
-    updateRentDto.date = new Date(updateRentDto.date);
-    updateRentDto.dueDate = new Date(updateRentDto.dueDate);
+    console.log(updateRentDto);
+    let updateRentDtoCopy = updateRentDto;
+
+    if(updateRentDto.date){
+      updateRentDtoCopy.date = new Date(updateRentDto.date);
+    }
+
+    if(updateRentDto.dueDate){
+      updateRentDtoCopy.dueDate = new Date(updateRentDto.dueDate);
+
+    }
+
     return await prisma.rent.update({
       where: {
         id,
       },
-      data: updateRentDto,
+      data: updateRentDtoCopy,
     });
   }
 
