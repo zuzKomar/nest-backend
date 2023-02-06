@@ -32,12 +32,14 @@ export class UsersController {
     return this.usersService.findOne(email);
   }
 
+  @Patch(':id')
   @ApiCreatedResponse({ type: UserEntity })
   @UseGuards(AuthGuard('jwt'))
   update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Delete('id')
   @ApiCreatedResponse({ type: UserEntity })
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id', ParseIntPipe) id: number) {
