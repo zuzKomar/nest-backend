@@ -55,7 +55,7 @@ export class AuthService {
     //generate password hash
     //save the new user in the db
     //return new user
-    const userExists = await prisma.user.findUnique({
+        const userExists = await prisma.user.findUnique({
       where: {
         email: dto.email
       }
@@ -69,7 +69,8 @@ export class AuthService {
     const newUser = await prisma.user.create({
       data: {
         ...dto,
-        password: hash
+        password: hash,
+        refreshToken: ''
       }
     })
 
