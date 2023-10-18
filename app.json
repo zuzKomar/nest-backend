@@ -1,0 +1,37 @@
+{
+    "name": "nest-backend",
+    "description": "Nest backend for master thesis",
+    "website": "https://rent-a-car.io/",
+    "repository": "https://github.com/zuzKomar/nest-backend",
+    "logo": "",
+    "success_url": "/",
+    "scripts":{
+      "predeploy": "npm install && npm run build"
+    },
+    "env": {
+      "NODE_ENV": {
+        "description": "Environment [production/development]",
+        "value": "production"
+      },
+      "POSTGRES_PRISMA_URL": {
+        "description": "url for db",
+        "value": "postgres://default:olvs1Og3KJNV@ep-throbbing-sun-42816294-pooler.eu-central-1.postgres.vercel-storage.com:5432/verceldb?pgbouncer=true&connect_timeout=15"
+      },
+      "POSTGRES_URL_NON_POOLING": {
+        "description": "url non pooling",
+        "value": "postgres://default:olvs1Og3KJNV@ep-throbbing-sun-42816294.eu-central-1.postgres.vercel-storage.com:5432/verceldb"
+      }
+    },
+    "formation": {
+      "web": {
+        "quantity": 1
+      }
+    },
+    "image": "heroku/nodejs",
+    "addons": ["heroku-postgresql"],
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      }
+    ]
+  }
