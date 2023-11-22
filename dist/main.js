@@ -12,10 +12,7 @@ async function bootstrap() {
         origin: 'http://localhost:3001',
         credentials: true,
     });
-    const config = new swagger_1.DocumentBuilder().setTitle('Rent-a-car Application')
-        .setDescription('Rent-a-car API')
-        .setVersion('1.0')
-        .build();
+    const config = new swagger_1.DocumentBuilder().setTitle('Rent-a-car Application').setDescription('Rent-a-car API').setVersion('1.0').build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, document);
     app.useGlobalPipes(new common_1.ValidationPipe({
@@ -23,11 +20,12 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
         transform: true,
         transformOptions: {
-            enableImplicitConversion: true
-        }
+            enableImplicitConversion: true,
+        },
     }));
     const { httpAdapter } = app.get(core_1.HttpAdapterHost);
     app.useGlobalFilters(new prisma_client_exception_filter_1.PrismaClientExceptionFilter(httpAdapter));
+    console.log('----env----: ', process.env);
     await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();

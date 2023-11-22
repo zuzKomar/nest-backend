@@ -12,10 +12,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const config = new DocumentBuilder().setTitle('Rent-a-car Application')
-    .setDescription('Rent-a-car API')
-    .setVersion('1.0')
-    .build();
+  const config = new DocumentBuilder().setTitle('Rent-a-car Application').setDescription('Rent-a-car API').setVersion('1.0').build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -25,12 +22,13 @@ async function bootstrap() {
       forbidNonWhitelisted: true, //it will return error if we pass prop, that was not specified in dto
       transform: true, //it will auto transform payloads to dto instances -> primitive type conversions too
       transformOptions: {
-        enableImplicitConversion: true
-      }
+        enableImplicitConversion: true,
+      },
     }),
   );
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  console.log('----env----: ', process.env);
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();
