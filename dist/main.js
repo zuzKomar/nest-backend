@@ -25,7 +25,6 @@ async function bootstrap() {
     }));
     const { httpAdapter } = app.get(core_1.HttpAdapterHost);
     app.useGlobalFilters(new prisma_client_exception_filter_1.PrismaClientExceptionFilter(httpAdapter));
-    console.log('----env----: ', process.env);
     await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();
