@@ -39,18 +39,17 @@ let AuthService = class AuthService {
         return Object.assign({ id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email }, tokens);
     }
     async signup(dto) {
-        console.log(dto);
         const userExists = await prisma.user.findUnique({
             where: {
-                email: dto.email,
-            },
+                email: dto.email
+            }
         });
         if (userExists) {
             throw new common_1.BadRequestException('User already exists');
         }
         const hash = await this.hashData(dto.password);
         const newUser = await prisma.user.create({
-            data: Object.assign(Object.assign({}, dto), { password: hash, refreshToken: '' }),
+            data: Object.assign(Object.assign({}, dto), { password: hash, refreshToken: '' })
         });
         const tokens = await this.getTokens(newUser.id, newUser.email);
         await this.updateRefreshToken(newUser.id, tokens.refreshToken);
@@ -106,7 +105,8 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService, users_service_1.UsersService])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        users_service_1.UsersService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map
