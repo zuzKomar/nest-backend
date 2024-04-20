@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: ['http://localhost:3000', 'http://localhost:3001', 'https://rent-a-car-frontend-three.vercel.app/', '*'],
     methods: ['GET', 'POST', 'DELETE', 'PATCH', 'HEAD', 'PUT'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
     credentials: true,
   });
 
