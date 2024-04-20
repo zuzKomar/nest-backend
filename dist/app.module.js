@@ -25,14 +25,7 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule,
-            prisma_module_1.PrismaModule,
-            rent_module_1.RentModule,
-            car_module_1.CarModule,
-            users_module_1.UsersModule,
-            config_1.ConfigModule.forRoot({ isGlobal: true })
-        ],
+        imports: [auth_module_1.AuthModule, prisma_module_1.PrismaModule, rent_module_1.RentModule, car_module_1.CarModule, users_module_1.UsersModule, config_1.ConfigModule.forRoot({ isGlobal: true })],
         controllers: [car_controller_1.CarController, rent_controller_1.RentController, auth_controller_1.AuthController],
         providers: [car_service_1.CarService, rent_service_1.RentService, auth_service_1.AuthService, jwt_1.JwtService],
     })
